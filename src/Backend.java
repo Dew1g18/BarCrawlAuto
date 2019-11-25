@@ -30,4 +30,13 @@ public class Backend implements BackendInterface {
     private void getGooglesInfo(){
 
     }
+
+    private Bar makeBar(){
+        return null;
+    }
+
+    @Override
+    public HashMap<Bar, Number> getBarsOrderMap() {
+        return null;
+    }
 }

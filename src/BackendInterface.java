@@ -10,4 +10,6 @@ public interface BackendInterface {
 
     URL getRoute();
 
+    HashMap<Bar, Number> getBarsOrderMap();
+
 }
