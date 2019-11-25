@@ -1,3 +1,4 @@
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +28,17 @@ public class Backend implements BackendInterface {
         this.numberOfStops=numberOfStops;
     }
 
-    private void getGooglesInfo(){
+    private void getGooglesInfo(Double lat, Double lon, int numberOfStops){
+        String params = "rankby=distance&type=bar&fields=formatted_address&";
+        try {
 
+            String location = "location="+Double.toString(lat)+","+Double.toString(lon)+"&";
+
+            URL url = new URL("https://maps.googleapis.com/maps/api/place/nearbysearch/json?" + params + location + "key=AIzaSyDXKLWHJQdqzVI1agSREbzr4AuoBKyUeuE");
+
+        }catch(MalformedURLException e){
+            e.printStackTrace();
+        }
     }
 
     private Bar makeBar(){
