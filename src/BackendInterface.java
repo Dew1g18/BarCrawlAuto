@@ -1,4 +1,13 @@
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public interface BackendInterface {
 
-    public void setParams(String begin, int numberOfStops );
+    void setParams(HashMap<String, Double> startLatLong, int numberOfStops );
+
+    ArrayList<Bar> getBars();
+
+    URL getRoute();
+
 }
