@@ -9,10 +9,10 @@ public class Main {
 
             //postcode verification test
             Backend backend = new Backend("so163hl", 10);
-            backend.verifyPostcode("sp84hh");
-            backend.verifyPostcode("SP8 4HH");
-            backend.verifyPostcode("SO16 3HL");
-            backend.verifyPostcode("SO 16 3H L");
+            System.out.println(backend.verifyPostcode("sp84hh"));
+            System.out.println(backend.verifyPostcode("SP8 4HH"));
+            System.out.println(backend.verifyPostcode("SO16 3HL"));
+            System.out.println(backend.verifyPostcode("SO 16 3H L"));
         }
 
     }

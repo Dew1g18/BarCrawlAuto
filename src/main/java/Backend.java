@@ -53,13 +53,18 @@ public class Backend implements BackendInterface {
         try {
             JsonReader reader = new JsonReader();
             JSONObject result = reader.readJsonFromUrl("https://api.postcodes.io/postcodes/" + postcode + "/validate");
-            System.out.println(result.toString());
-            System.out.println(result.get("result"));
+//            System.out.println(result.toString());
+//            System.out.println(result.get("result"));
+            if (result.get("result").equals(true)){
+                return true;
+            }else{
+                return false;
+            }
         }catch (Exception e){
             e.printStackTrace();
+            return false;
         }
 
-        return true;
 
         /**
          * Commented out my own half done version to try out this pre-built jsonParser to save some time
