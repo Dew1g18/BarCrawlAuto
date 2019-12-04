@@ -21,7 +21,7 @@ public class Main {
             System.out.println(testLatLong.toString());
 
             //getGoogleInfo testing
-            backend.getGooglesInfo(testLatLong.get("latitude"), testLatLong.get("longitude"), 10);
+            backend.getGooglesInfo(testLatLong.get("latitude"), testLatLong.get("longitude"), 3);
 
 
 

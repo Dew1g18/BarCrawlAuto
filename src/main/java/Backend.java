@@ -14,10 +14,7 @@ public class Backend{
 
     public Backend(String begin, int numberOfStops){
         verifyPostcode(begin);
-//        Map<String, Double> latLongBegin = latLongFromPostcode(begin);
-//TODO Change string postcode to lat long
-//        setParams(begin, numberOfStops);
-
+        setParams(latLongFromPostcode(begin), numberOfStops);//I setparams as a separate method so I can try again without making a new obejct if need be
     }
 
     public Backend(Map begin, int numberOfStops){
@@ -101,7 +98,6 @@ public class Backend{
         String params = "location="+lat.toString()+","+ lon.toString()+"&rankby=distance&type=bar&";
 
         try {
-            //todo finish forming the http request correctly
 //            URL url = new URL("https://maps.googleapis.com/maps/api/place/nearbysearch/json?" + params + "key=AIzaSyDXKLWHJQdqzVI1agSREbzr4AuoBKyUeuE");
 //            HttpURLConnection con = (HttpURLConnection) url.openConnection();
 //            con.setRequestMethod("GET");
@@ -114,19 +110,16 @@ public class Backend{
             JSONArray arrayOfBars = reader.readJsonFromUrl(url).getJSONArray("results");
 //            System.out.println(arrayOfBars.toString());
             int length = arrayOfBars.length();
+            int minOfOptions = Math.min(length, numberOfStops);
             //Looping through each of the bars or the total number of stops whichever is fewer
             bars = new ArrayList<Bar>();
-            for(int i=0; i<length; i++ ){
+            for(int i=0; i<minOfOptions; i++ ){
                 JSONObject barInfo = arrayOfBars.getJSONObject(i);
 //                System.out.println(barInfo.getJSONObject("geometry").getJSONObject("viewport"));
                 Bar bar = (makeBar(barInfo));
                 bars.add(bar);
                 System.out.println("Bar name: "+ bar.getName() + "\n Lat/long: "+ bar.getLatLong().toString()+"\n ID: "+ bar.getUniqueID()+"\n\n");
             }
-
-
-            //todo by this point reading the json should be trivial so use that to read bar information and create bars.
-
             return true;
         }catch(Exception e){
             e.printStackTrace();
@@ -135,7 +128,6 @@ public class Backend{
     }
 
 
-    //todo make the makebar method to make a bar from a json object
     private Bar makeBar(JSONObject barInfo){
         JSONObject location = barInfo.getJSONObject("geometry").getJSONObject("location");
         return new Bar((String) barInfo.get("name"), (Double) location.get("lat"),(Double) location.get("lng"),(String) barInfo.get("place_id"));
