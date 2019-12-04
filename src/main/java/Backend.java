@@ -1,17 +1,16 @@
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class Backend implements BackendInterface {
+public class Backend{
     private Map<String, Double> begin;
     private int numberOfStops;
+    private ArrayList<Bar> bars;
 
     public Backend(String begin, int numberOfStops){
         verifyPostcode(begin);
@@ -31,14 +30,12 @@ public class Backend implements BackendInterface {
             String url = ("https://api.postcodes.io/postcodes/"+postcode);
             JsonReader reader = new JsonReader();
             JSONObject postcodeInfo = reader.readJsonFromUrl(url).getJSONObject("result");
-            System.out.println(postcodeInfo.toString());
+//            System.out.println(postcodeInfo.toString());
 //            System.out.println(postcodeInfo.get("latitude"));
 
             latLong.put("longitude", (Double) postcodeInfo.get("longitude"));
             latLong.put("latitude", (Double) postcodeInfo.get("latitude"));
 
-
-            //todo implement getting lat long from json
 
             return latLong;
         }catch(Exception e){
@@ -47,7 +44,6 @@ public class Backend implements BackendInterface {
         }
     }
 
-    //todo: Implement a postcode verification method.
     protected boolean verifyPostcode(String postcode){
         try {
             JsonReader reader = new JsonReader();
@@ -86,32 +82,49 @@ public class Backend implements BackendInterface {
 //        }
     }
 
-    @Override
     public ArrayList<Bar> getBars() {
-        return null;
+        return bars;
     }
 
-    @Override
+
     public URL getRoute() {
         return null;
     }
 
-    @Override
+
     public void setParams(Map<String, Double> begin, int numberOfStops) {
         this.begin=begin;
         this.numberOfStops=numberOfStops;
     }
 
-    private boolean getGooglesInfo(Double lat, Double lon, int numberOfStops){
-        String params = "rankby=distance&type=bar&fields=formatted_address&";
+    public boolean getGooglesInfo(Double lat, Double lon, int numberOfStops){
+        String params = "location="+lat.toString()+","+ lon.toString()+"&rankby=distance&type=bar&";
 
         try {
             //todo finish forming the http request correctly
-            URL url = new URL("https://maps.googleapis.com/maps/api/place/nearbysearch/json?" + params + "key=AIzaSyDXKLWHJQdqzVI1agSREbzr4AuoBKyUeuE");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            String info = reader.readLine();
+//            URL url = new URL("https://maps.googleapis.com/maps/api/place/nearbysearch/json?" + params + "key=AIzaSyDXKLWHJQdqzVI1agSREbzr4AuoBKyUeuE");
+//            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//            con.setRequestMethod("GET");
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+//            String info = reader.readLine();
+
+
+            String url = ("https://maps.googleapis.com/maps/api/place/nearbysearch/json?" + params + "key=AIzaSyDXKLWHJQdqzVI1agSREbzr4AuoBKyUeuE");
+            JsonReader reader = new JsonReader();
+            JSONArray arrayOfBars = reader.readJsonFromUrl(url).getJSONArray("results");
+//            System.out.println(arrayOfBars.toString());
+            int length = arrayOfBars.length();
+            //Looping through each of the bars or the total number of stops whichever is fewer
+            bars = new ArrayList<Bar>();
+            for(int i=0; i<length; i++ ){
+                JSONObject barInfo = arrayOfBars.getJSONObject(i);
+//                System.out.println(barInfo.getJSONObject("geometry").getJSONObject("viewport"));
+                Bar bar = (makeBar(barInfo));
+                bars.add(bar);
+                System.out.println("Bar name: "+ bar.getName() + "\n Lat/long: "+ bar.getLatLong().toString()+"\n ID: "+ bar.getUniqueID()+"\n\n");
+            }
+
+
             //todo by this point reading the json should be trivial so use that to read bar information and create bars.
 
             return true;
@@ -121,11 +134,14 @@ public class Backend implements BackendInterface {
         }
     }
 
-    private Bar makeBar(){
-        return null;
+
+    //todo make the makebar method to make a bar from a json object
+    private Bar makeBar(JSONObject barInfo){
+        JSONObject location = barInfo.getJSONObject("geometry").getJSONObject("location");
+        return new Bar((String) barInfo.get("name"), (Double) location.get("lat"),(Double) location.get("lng"),(String) barInfo.get("place_id"));
     }
 
-    @Override
+    //todo implement travelling salesman and give each bar a number
     public Map<Bar, Number> getBarsOrderMap() {
         return null;
     }

@@ -8,9 +8,11 @@ public class Bar {
     private String description;
 
 
-    public Bar(String name, HashMap<String, Double> latlong, String uniqueID) {
+    public Bar(String name, Double latitude, Double longitude, String uniqueID) {
         this.name = name;
-        this.latLong = latlong;
+        this.latLong=new HashMap<String, Double>();
+        this.latLong.put("latitude", latitude);
+        this.latLong.put("longitude", longitude);
         this.uniqueID = uniqueID;
     }
 

@@ -1,3 +1,5 @@
+import java.util.Map;
+
 public class Main {
 
     // todo: For now the main method is just going to be here for running quick unit tests on parts of Bar and Backend, eventually
@@ -15,7 +17,13 @@ public class Main {
             System.out.println(backend.verifyPostcode("SO 16 3H L")); //false
 
             //postcode information grabbing test
-            System.out.println(backend.latLongFromPostcode("so16 3hl").toString());
+            Map<String, Double> testLatLong = backend.latLongFromPostcode("so16 3hl");
+            System.out.println(testLatLong.toString());
+
+            //getGoogleInfo testing
+            backend.getGooglesInfo(testLatLong.get("latitude"), testLatLong.get("longitude"), 10);
+
+
 
         }
 
