@@ -15,7 +15,7 @@ public class Main {
             System.out.println(backend.verifyPostcode("SO 16 3H L")); //false
 
             //postcode information grabbing test
-            backend.latLongFromPostcode("so16 3hl");
+            System.out.println(backend.latLongFromPostcode("so16 3hl").toString());
 
         }
 
