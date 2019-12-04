@@ -13,7 +13,8 @@ public class Backend implements BackendInterface {
     private int numberOfStops;
 
     public Backend(String begin, int numberOfStops){
-        Map<String, Double> latLongBegin = latLongFromPostcode(begin);
+        verifyPostcode(begin);
+//        Map<String, Double> latLongBegin = latLongFromPostcode(begin);
 //TODO Change string postcode to lat long
 //        setParams(begin, numberOfStops);
 
@@ -26,7 +27,7 @@ public class Backend implements BackendInterface {
     Map<String, Double> latLongFromPostcode(String postcode){
         try {
 
-            URL url = new URL("api.postcodes.io/postcodes/"+postcode);
+            URL url = new URL("https://api.postcodes.io/postcodes/"+postcode);
             //todo CHECK that a postcode works with the same API once you know you're using the api correctly
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
@@ -43,6 +44,26 @@ public class Backend implements BackendInterface {
         }catch(Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    //todo: Implement a postcode verification method.
+    protected boolean verifyPostcode(String postcode){
+        try {
+            String urlString = "https://api.postcodes.io/postcodes/"+postcode+"/validate";
+//            System.out.println(urlString);
+            URL url = new URL(urlString);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+
+            String info = reader.readLine();
+            System.out.println(info);
+            System.out.println();
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
         }
     }
 
