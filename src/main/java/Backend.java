@@ -1,7 +1,8 @@
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,21 +51,35 @@ public class Backend implements BackendInterface {
     //todo: Implement a postcode verification method.
     protected boolean verifyPostcode(String postcode){
         try {
-            String urlString = "https://api.postcodes.io/postcodes/"+postcode+"/validate";
-//            System.out.println(urlString);
-            URL url = new URL(urlString);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-
-            String info = reader.readLine();
-            System.out.println(info);
-            System.out.println();
-            return true;
-        }catch(Exception e){
+            JsonReader reader = new JsonReader();
+            JSONObject result = reader.readJsonFromUrl("https://api.postcodes.io/postcodes/" + postcode + "/validate");
+            System.out.println(result.toString());
+            System.out.println(result.get("result"));
+        }catch (Exception e){
             e.printStackTrace();
-            return false;
         }
+
+        return true;
+
+        /**
+         * Commented out my own half done version to try out this pre-built jsonParser to save some time
+         */
+//        try {
+//            String urlString = "https://api.postcodes.io/postcodes/"+postcode+"/validate";
+////            System.out.println(urlString);
+//            URL url = new URL(urlString);
+//            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//            con.setRequestMethod("GET");
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+//
+//            String info = reader.readLine();
+//            System.out.println(info);
+//            System.out.println();
+//            return true;
+//        }catch(Exception e){
+//            e.printStackTrace();
+//            return false;
+//        }
     }
 
     @Override
