@@ -9,5 +9,8 @@
         <module name="BarCrawlAuto" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="BarCrawlAuto" target="1.6" />
+    </bytecodeTargetLevel>
   </component>
 </project>
