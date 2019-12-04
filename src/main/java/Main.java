@@ -9,10 +9,14 @@ public class Main {
 
             //postcode verification test
             Backend backend = new Backend("so163hl", 10);
-            System.out.println(backend.verifyPostcode("sp84hh"));
-            System.out.println(backend.verifyPostcode("SP8 4HH"));
-            System.out.println(backend.verifyPostcode("SO16 3HL"));
-            System.out.println(backend.verifyPostcode("SO 16 3H L"));
+            System.out.println(backend.verifyPostcode("sp84hh")); //true
+            System.out.println(backend.verifyPostcode("SP8 4HH")); //true
+            System.out.println(backend.verifyPostcode("SO16 3HL")); //true
+            System.out.println(backend.verifyPostcode("SO 16 3H L")); //false
+
+            //postcode information grabbing test
+            backend.latLongFromPostcode("so16 3hl");
+
         }
 
     }

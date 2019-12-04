@@ -26,19 +26,18 @@ public class Backend implements BackendInterface {
     }
 
     Map<String, Double> latLongFromPostcode(String postcode){
+        Map<String, Double> latLong = new HashMap<String, Double>();
         try {
+            String url = ("https://api.postcodes.io/postcodes/"+postcode);
+            JsonReader reader = new JsonReader();
+            JSONObject postcodeInfo = reader.readJsonFromUrl(url).getJSONObject("result");
+            System.out.println(postcodeInfo.toString());
+//            System.out.println(postcodeInfo.get("latitude"));
 
-            URL url = new URL("https://api.postcodes.io/postcodes/"+postcode);
-            //todo CHECK that a postcode works with the same API once you know you're using the api correctly
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            String info = reader.readLine();
-            System.out.println(info);
-            Map<String, Double> latLong = new HashMap<>(){{
-                put("latitude",0.0);
-                put("longitude",0.0);
-            }};
+            latLong.put("longitude", (Double) postcodeInfo.get("longitude"));
+            latLong.put("latitude", (Double) postcodeInfo.get("latitude"));
+
+
             //todo implement getting lat long from json
 
             return latLong;
