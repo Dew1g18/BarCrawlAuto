@@ -1,3 +1,5 @@
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 public class Bar {
@@ -5,7 +7,7 @@ public class Bar {
     private String name;
     private HashMap<String, Double> latLong;
     private String uniqueID;
-    private String description;
+    private JSONObject description;
 
 
     public Bar(String name, Double latitude, Double longitude, String uniqueID) {
@@ -28,11 +30,11 @@ public class Bar {
         return uniqueID;
     }
 
-    public String getDescription() {
+    public JSONObject getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(JSONObject description) {
         this.description = description;
     }
 }

@@ -117,6 +117,7 @@ public class Backend{
                 JSONObject barInfo = arrayOfBars.getJSONObject(i);
 //                System.out.println(barInfo.getJSONObject("geometry").getJSONObject("viewport"));
                 Bar bar = (makeBar(barInfo));
+                bar.setDescription(barInfo);
                 bars.add(bar);
                 System.out.println("Bar name: "+ bar.getName() + "\n Lat/long: "+ bar.getLatLong().toString()+"\n ID: "+ bar.getUniqueID()+"\n\n");
             }
@@ -135,6 +136,9 @@ public class Backend{
 
     //todo implement travelling salesman and give each bar a number
     public Map<Bar, Number> getBarsOrderMap() {
+        //todo, go through each bar and build a distance matrix of all the places.
+        //  get an array of the indices of each bar's position in the getBars() array in order.
+        // Each bar now has an index in the bar list, map the bar to that index's index in the returned array
         return null;
     }
 }

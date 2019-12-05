@@ -17,11 +17,19 @@ public class Main {
             System.out.println(backend.verifyPostcode("SO 16 3H L")); //false
 
             //postcode information grabbing test
-            Map<String, Double> testLatLong = backend.latLongFromPostcode("so16 3hl");
+            Map<String, Double> testLatLong = backend.latLongFromPostcode("sp84hh");
             System.out.println(testLatLong.toString());
 
+
             //getGoogleInfo testing
-            backend.getGooglesInfo(testLatLong.get("latitude"), testLatLong.get("longitude"), 3);
+            backend.getGooglesInfo(testLatLong.get("latitude"), testLatLong.get("longitude"), 10);
+
+            //testing from args
+            if (args.length<2){
+                Map<String, Double> argtestlatlong = backend.latLongFromPostcode(args[1]);
+                backend.getGooglesInfo(testLatLong.get("latitude"), testLatLong.get("longitude"), Integer.parseInt(args[2]));
+
+            }
 
 
 
