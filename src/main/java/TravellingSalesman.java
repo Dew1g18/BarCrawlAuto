@@ -11,17 +11,23 @@ public class TravellingSalesman {
 
     }
 
-    public double distanceBetween(HashMap<String, Double> orig, ArrayList<Bar> bars){
+    public double[] distanceBetween(HashMap<String, Double> orig, ArrayList<Bar> bars){
         //todo, use the google api distance matrix to get individual distances for bars and start point.
         String origin = "origins="+orig.get("latitude").toString()+","+orig.get("longitude")+"&";
+        String destinations = "destinations=";
+        String extraParams = "&mode=walking";
 
+        for(Bar bar: bars){
+            destinations+="place_id="+bar.getUniqueID()+"%";
+        }
         JsonReader reader = new JsonReader();
         try {
             JSONObject distJson = reader.readJsonFromUrl("https://maps.googleapis.com/maps/api/distancematrix/json?" +origin+  "&key=AIzaSyDXKLWHJQdqzVI1agSREbzr4AuoBKyUeuE");
+            //todo, turn the returned JSON into a section of the distance matrix.
         }catch (Exception e){
             e.printStackTrace();
         }
-        return 0.0;
+        return null;
     }
 
 //    public double
